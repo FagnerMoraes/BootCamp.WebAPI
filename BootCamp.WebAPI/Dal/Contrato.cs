@@ -50,23 +50,75 @@ namespace BootCamp.WebAPI.Dal
             
         }
 
-        public Task<Model.Contrato> GetContratos(string id)
+        public async Task<Model.Contrato> GetContrato(string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DocumentReference docRef = fireStoreDb.Collection("contrato").Document(id);
+                DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
+                if (snapshot.Exists)
+                {
+                    Model.Contrato contrato = snapshot.ConvertTo<Model.Contrato>();
+                    contrato.Id = snapshot.Id;
+                    return contrato;
+                }
+                else
+                {
+                    return new Model.Contrato();
+                }
+            }
+            catch
+            {
+                throw;
+            }
         }
         public string AddContrato(Model.Contrato contrato)
         {
-            throw new NotImplementedException();
+            try
+            {
+            CollectionReference colRef = fireStoreDb.Collection("contrato");
+            var id = colRef.AddAsync(contrato).Result.Id;
+            var sharedRef = colRef.Document(id.ToString());
+            sharedRef.UpdateAsync("Id", id);
+
+            return id;
+            }
+            catch
+            {
+                return "Error";
+            }
+
         }
 
-        public void DeleteContrato(string id)
+
+        public async void UpdateContrato(Model.Contrato contrato)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DocumentReference contratoRef =
+                    fireStoreDb.Collection("contrato").Document(contrato.Id);
+                await contratoRef.SetAsync(contrato, SetOptions.Overwrite);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async void DeleteContrato(string id)
+        {
+            try
+            {
+                DocumentReference contratoRef =
+                    fireStoreDb.Collection("contrato").Document(id);
+                await contratoRef.DeleteAsync();
+            }
+            catch
+            {
+            throw;
+            }
         }
                 
-        public void UpdateContrato(Model.Contrato contrato)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

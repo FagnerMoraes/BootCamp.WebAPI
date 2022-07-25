@@ -27,8 +27,8 @@ namespace BootCamp.WebAPI.Dal
         {
             try
             {
-                Query fornecedoroQuery = firestoreDb.Collection("fornecedor");
-                QuerySnapshot inscricaoQuerySnaphot = await fornecedoroQuery.GetSnapshotAsync();
+                Query fornecedorQuery = firestoreDb.Collection("fornecedor");
+                QuerySnapshot inscricaoQuerySnaphot = await fornecedorQuery.GetSnapshotAsync();
                 List<Model.Fornecedor> ListaFornecedor = new List<Model.Fornecedor>();
 
                 foreach(DocumentSnapshot documentSnapshot in inscricaoQuerySnaphot.Documents)
@@ -81,8 +81,8 @@ namespace BootCamp.WebAPI.Dal
             {
                 CollectionReference colRef = firestoreDb.Collection("fornecedor");
                 var id = colRef.AddAsync(fornecedor).Result.Id;
-                var shardRef = colRef.Document(id.ToString());
-                shardRef.UpdateAsync("Id", id);
+                var sharedRef = colRef.Document(id.ToString());
+                sharedRef.UpdateAsync("Id", id);
 
                 return id;
             }
