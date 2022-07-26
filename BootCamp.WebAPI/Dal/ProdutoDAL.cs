@@ -4,20 +4,20 @@ using Newtonsoft.Json;
 
 namespace BootCamp.WebAPI.Dal
 {
-    public class Produto : IProduto
+    public class ProdutoDAL : IProduto
     {
         
         string projectId;
         FirestoreDb fireStoreDb;
 
-        public Produto()
+        public ProdutoDAL()
         {
             /*Caminho do arquivo baixado do firebase ou gloud, colocar
              na raiz do projeto*/
             string arquivoApiKey = @"projetoestoque-ae952-firebase-adminsdk-ad4fd-c8a8086062.json";
 
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", arquivoApiKey);
-            projectId = "projetoEstoque";
+            projectId = "projetoestoque-ae952";
             fireStoreDb = FirestoreDb.Create(projectId);
         }
 
