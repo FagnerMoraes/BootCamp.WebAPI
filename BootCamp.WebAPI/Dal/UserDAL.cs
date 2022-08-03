@@ -7,7 +7,7 @@
             var users = new List<Model.User>();
 
             //User 2:
-            users.Add(new Model.User { Id = 1, UserName = "fagner@acme.com.br", Password = "12345", Role = "manager" });
+            users.Add(new Model.User { Id = 2, UserName = "fagner@acme.com.br", Password = "12345", Role = "manager" });
 
             //User 1:
             users.Add(new Model.User { Id = 1, UserName = "veronica@acme.com.br", Password = "12345", Role = "employee" });

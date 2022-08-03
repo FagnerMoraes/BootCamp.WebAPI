@@ -3,6 +3,7 @@ using BootCamp.WebAPI.Dal.Repositories;
 using BootCamp.WebAPI.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,29 +11,29 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Transformar palavra chave em bytes:
 var key = Encoding.ASCII.GetBytes(Settings.Secret);
-// Para instanciar os serviços
+// Para instanciar os serviï¿½os
 builder.Services.AddAuthentication(x =>
 {
-    // Adicionamos a autenticação e dentro, as configurações necessárias (deve autenticar com o esquema
-    // padrão).
+    // Adicionamos a autenticaï¿½ï¿½o e dentro, as configuraï¿½ï¿½es necessï¿½rias (deve autenticar com o esquema
+    // padrï¿½o).
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-// Chave para compilação:
+// Chave para compilaï¿½ï¿½o:
 .AddJwtBearer(x =>
 {
-    // Nenhum metadado poderá passar:
+    // Nenhum metadado poderï¿½ passar:
     x.RequireHttpsMetadata = false;
     // Salvar o token:
     x.SaveToken = true;
-    // Parâmetros padrões requisitados:
+    // Parï¿½metros padrï¿½es requisitados:
     x.TokenValidationParameters = new TokenValidationParameters
     {
         // Assinatura:
         ValidateIssuerSigningKey = true,
-        // Vai utilizar a key normal sempre que validar o código:
+        // Vai utilizar a key normal sempre que validar o cï¿½digo:
         IssuerSigningKey = new SymmetricSecurityKey(key),
-        // Valida se a assinatura está correta:
+        // Valida se a assinatura estï¿½ correta:
         ValidateIssuer = false,
         ValidateAudience = false
     };
@@ -44,7 +45,41 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen( c =>
+{
+    c.SwaggerDoc("v1", 
+        new OpenApiInfo{
+            Title = "ACME",
+            Version = "v1",
+            Description = "API REST"
+        });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer "+
+                      " scheme. \r\n\r\n Enter 'Bearer'[space] and then your token" +
+                      "in the text input below. \r\n\r\nExample: \"Bearer 1234abcdef\"",
+    });
+    c.AddSecurityRequirement( new OpenApiSecurityRequirement
+    { 
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });    
+});
 builder.Services.AddEndpointsApiExplorer();
 
 

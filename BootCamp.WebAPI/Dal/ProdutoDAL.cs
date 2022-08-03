@@ -14,7 +14,7 @@ namespace BootCamp.WebAPI.Dal
         {
             /*Caminho do arquivo baixado do firebase ou gloud, colocar
              na raiz do projeto*/
-            string arquivoApiKey = @"projetoestoque-ae952-firebase-adminsdk-ad4fd-c8a8086062.json";
+            string arquivoApiKey = @"projetoestoque-ae952-firebase-adminsdk-ad4fd-2f629cc7fa.json";
 
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", arquivoApiKey);
             projectId = "projetoestoque-ae952";

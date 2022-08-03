@@ -17,7 +17,7 @@ namespace BootCamp.WebAPI.Controller
         }
 
         [HttpGet]
-        //[Authorize(Roles = "employee")]
+        [Authorize(Roles = "employee")]
         public Task<List<Model.Fornecedor>> Get()
         {
             return _fornecedor.GetFornecedores();
