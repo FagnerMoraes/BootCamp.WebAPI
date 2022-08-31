@@ -15,7 +15,7 @@ namespace BootCamp.WebAPI.Controller
             this._contrato = contrato;
         }
 
-        [HttpGet]
+        [HttpGet("Todos")]
         public Task<List<Model.Contrato>> Get()
         {
             return _contrato.GetContratos();

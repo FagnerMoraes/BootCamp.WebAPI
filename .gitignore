@@ -3,6 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+
+#ignorar a chave do firebase
+projetoestoque-ae952-firebase-adminsdk-ad4fd-2f629cc7fa.json
+
+
 # User-specific files
 *.rsuser
 *.suo
